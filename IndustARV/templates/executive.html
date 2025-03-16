@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Dashboard | IndustARV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700&family=Roboto:wght@400;500&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Background Theme */
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            color: white;
+            background: linear-gradient(to bottom, black, #235384);
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Gradient Overlay */
+        .gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cdefs%3E%3Cpattern id="diagonalLines" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse"%3E%3Cline x1="0" y1="0" x2="10" y2="10" style="stroke:rgba(255,255,255,0.02); stroke-width:1" /%3E%3Cline x1="0" y1="10" x2="10" y2="0" style="stroke:rgba(255,255,255,0.02); stroke-width:1" /%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%" height="100%" fill="url(%23diagonalLines)" /%3E%3C/svg%3E');
+            opacity: 0.2;
+            pointer-events: none;
+            animation: subtle-motion 20s linear infinite alternate;
+            z-index: 1;
+        }
+
+        @keyframes subtle-motion {
+            from {
+                transform: translate(0px, 0px);
+            }
+            to {
+                transform: translate(5px, 5px);
+            }
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 900px;
+            padding: 40px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(12px);
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            z-index: 2;
+            text-align: left;
+        }
+
+        /* Heading */
+        h1 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 25px;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.9em;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Graph Section */
+       .graph-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .graph {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .graph-label {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #ddd;
+            width: 150px;
+            text-align: left;
+            margin-right: 20px;
+        }
+
+        .graph-bar-container {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .graph-bar {
+            height: 20px;
+            background: linear-gradient(to right, #4a90e2, #63b8ff);
+            width: 0;
+            border-radius: 10px;
+            transition: width 1.5s ease-in-out;
+            position: relative;
+        }
+
+        .graph-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .percentage {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #ddd;
+            width: 60px;
+            text-align: right;
+            margin-left: 20px;
+            white-space: nowrap;
+        }
+
+        /* AI-Driven Solutions Section */
+        .card {
+            /* background: rgba(255, 255, 255, 0.07);  Removed background */
+            /* border: 1px solid rgba(255, 255, 255, 0.1); Removed border */
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            width: 100%;
+            /* backdrop-filter: blur(5px); Removed backdrop-filter */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Section Headers */
+        h2 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* AI-Driven Solutions Spacing Fix */
+        .solution-details {
+            text-align: left;
+            margin-top: 15px;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #ddd;
+        }
+
+        .solution-details p {
+            margin-bottom: 15px;
+        }
+
+        /* Solution List */
+        .solution-list {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .solution-list label {
+            display: block;
+            font-size: 1em;
+            color: #ddd;
+            margin: 8px 0;
+        }
+
+        .solution-list input {
+            margin-right: 10px;
+        }
+
+        /* Buttons */
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            text-align: center;
+        }
+
+       .btn {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: white;
+            padding: 14px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            outline: none;
+            min-width: 180px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Video Upload Section */
+        .video-upload-card {
+            /*background: rgba(255, 255, 255, 0.07); Removed background */
+            /*border: 1px solid rgba(255, 255, 255, 0.1); Removed border */
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            width: 100%;
+            text-align: center;
+            /*backdrop-filter: blur(5px); Removed backdrop-filter */
+        }
+
+        .video-upload-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-btn {
+           font-family: 'Roboto', sans-serif;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: white;
+            padding: 14px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            outline: none;
+            min-width: 180px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        #uploadProgress {
+            margin-top: 15px;
+            font-size: 1em;
+            font-weight: 500;
+            color: #ddd;
+        }
+
+        #outputImage {
+            margin-top: 30px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        #videoDisplay {
+            margin-top: 30px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #uploadSuccessMessage {
+            display: none;
+            color: #ddd;
+            font-size: 1em;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+
+        #processingMessage {
+            display: none;
+            color: #ddd;
+            font-size: 1em;
+            font-weight: 500;
+            margin-top: 15px;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+       .loader {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid #63b8ff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1.5s linear infinite;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .graph-label, .percentage {
+                font-size: 0.9em;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+
+            .solution-details, .solution-list label {
+                font-size: 0.9em;
+            }
+
+            .btn {
+                font-size: 0.9em;
+                padding: 12px 18px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .buttons .btn {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-overlay"></div>
+    <div class="container">
+        <h1>Executive Dashboard</h1>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">Sent Successfully!</div>
+
+        <!-- Graph Section -->
+        <div class="graph-container">
+            <div class="graph">
+                <span class="graph-label">Safety</span>
+                <div class="graph-bar-container">
+                    <div class="graph-bar" id="safety"></div>
+                </div>
+                <span class="percentage">98%</span>
+            </div>
+
+            <div class="graph">
+                <span class="graph-label">Punctuality</span>
+                <div class="graph-bar-container">
+                    <div class="graph-bar" id="punctuality"></div>
+                </div>
+                <span class="percentage">83%</span>
+            </div>
+
+            <div class="graph">
+                <span class="graph-label">Instruments</span>
+                <div class="graph-bar-container">
+                    <div class="graph-bar" id="instruments"></div>
+                </div>
+                <span class="percentage">99%</span>
+            </div>
+        </div>
+
+        <!-- AI-Driven Solutions Section -->
+        <div class="card">
+            <h2>AI-Driven Solutions</h2>
+
+            <div class="solution-details">
+                <p><strong>Department Name:</strong> Blast Furnaces</p>
+                <p><strong>Issue Occurred:</strong> Fire Explosion</p>
+            </div>
+
+            <div class="solution-list">
+                <label><input type="checkbox"> Evacuate immediately following AI-guided safe routes</label>
+                <label><input type="checkbox"> Wear emergency oxygen masks if toxic gas is detected</label>
+                <label><input type="checkbox"> Avoid metal structures and high-heat zones</label>
+                <label><input type="checkbox"> Use emergency stairs, not elevators</label>
+                <label><input type="checkbox"> Move to AI-designated safe zones if exits are blocked</label>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons">
+            <button class="btn" onclick="showSuccessMessage()">Send to Contributor</button>
+            <button class="btn" onclick="goToHome()">Back to Home</button>
+        </div>
+
+        <!-- Video Upload Section -->
+        <div class="video-upload-card">
+            <h2>Video Analysis</h2>
+            <input type="file" id="videoUpload" accept="video/*" style="display: none;">
+            <button class="upload-btn" onclick="document.getElementById('videoUpload').click();">Upload Video</button>
+            <div id="uploadProgress"></div>
+            <div id="uploadSuccessMessage">Video Uploaded Successfully!</div>
+
+            <video id="videoDisplay" controls></video>
+            <div id="processingMessage">Processing...<div class="loader"></div></div>
+            <img id="outputImage" src="https://media-hosting.imagekit.io//2fcf8d9824f24d45/WhatsApp%20Image%202025-03-05%20at%2020.12.13_3f895c87.jpg?Expires=1835793766&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=tC6L3WvirFnC5qWDmaBnB555tgY25b~xxZWrT8X1I~WhTy7fouVDq77GXkzs8uOsSBr09nGdnrJ0FqZQt~e6582RdFGkGI45MZS4cf6f9bU9kvWAyzQNmGWuUrXZ6-IOvSI6fJmOFdRuYu0qSV4M08rmavX8PUcBC1zidpk1XWJbaZa36PFnyiSQ-Oaae8lo9qyHZO6eRGVncr7o1Kv6W84nJcMI-RjExoY46JVAOi7KiPypm-KJqX2t~UR21m6DRQOkQ8GcqEjvx4rigZcKRf7a~GOPRrEm-MuihphIPrpqDnoDTeEUqlrGqSzCyxxsAeyduRh8Ueso1CQeK0neqw__" alt="Output Image">
+        </div>
+    </div>
+
+    <script>
+        function showSuccessMessage() {
+            let msg = document.getElementById("successMessage");
+            msg.style.display = "block";
+            setTimeout(() => msg.style.display = "none", 2000);
+        }
+
+        function goToHome() {
+            window.location.href = "/";
+        }
+
+        // Animate Graph Bars
+        window.onload = function () {
+            document.getElementById("safety").style.width = "98%";
+            document.getElementById("punctuality").style.width = "83%";
+            document.getElementById("instruments").style.width = "99%";
+        };
+
+        // Video Upload Functionality (Placeholder - Real Upload needs server-side code)
+        document.getElementById('videoUpload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                uploadVideo(file);
+            }
+        });
+
+        function uploadVideo(file) {
+            const uploadProgress = document.getElementById('uploadProgress');
+            const outputImage = document.getElementById('outputImage');
+            const videoDisplay = document.getElementById('videoDisplay');
+            const uploadSuccessMessage = document.getElementById('uploadSuccessMessage');
+            const processingMessage = document.getElementById('processingMessage');
+
+            // Simulate Upload Progress (Replace with actual upload logic)
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                uploadProgress.textContent = `Uploading: ${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    uploadProgress.textContent = "Upload Complete!";
+                    uploadSuccessMessage.style.display = "block";
+
+                    // Simulate processing
+                    setTimeout(() => {
+                        uploadSuccessMessage.style.display = "none";
+
+                        // Display the video
+                        videoDisplay.src = "https://media-hosting.imagekit.io//6d7a73c8657040bc/Blast_Furnace_Demo.mp4?Expires=1835794061&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=cDrUcq-vZBOK-5OlLHTFopqy32Xo~W1nqf876rxvbWcdOjNlH7fX9Fxp3-8Ym1bqkwyTAjpVK0-SHSM97zHUbmTpS3ffF8Tzidif3k9qWaUWrwCfl~yHBL-4E51YRJlX6C-oO2TV0hJTyIhT2Trryq7ewJ3ZO301yp3z3AobiG8CNvnNkFATiTrsTN01IMJfENOGtU~wgOVBxd1Owplc8DxXiw~LchZJl-ugjGGjtmuhEZC8OukQ9huO2oc32P9Ms5oiiEyY6RlsNRtvQkFsy-b8wB4njjdssb8uusf9Sl5vqLVzRKbnVOskUtv0GvSCDLaf9Vc6zp~nyX3UW66fUA__";
+                        videoDisplay.style.display = "block";
+                        videoDisplay.load();
+                        processingMessage.style.display = "flex"; //show processing message
+
+                        setTimeout(() => {
+                            processingMessage.style.display = "none";
+
+                            // Display the image
+                            outputImage.style.display = "block";
+                        }, 9000); // Show the image after 9 seconds
+                    }, 1000); // Simulate a 1 second delay before processing starts
+                }
+            }, 200);  // Update every 200ms (adjust for speed)
+        }
+    </script>
+</body>
+</html>
