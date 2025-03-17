@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndustARV Contributor Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700&family=Roboto:wght@400;500&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, black, #235384);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Prevent scrollbars on background animation */
+        }
+
+        /* Animated Background (Particles) - Simple Example */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cdefs%3E%3Cpattern id="diagonalLines" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse"%3E%3Cline x1="0" y1="0" x2="10" y2="10" style="stroke:rgba(255,255,255,0.02); stroke-width:1" /%3E%3Cline x1="0" y1="10" x2="10" y2="0" style="stroke:rgba(255,255,255,0.02); stroke-width:1" /%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%" height="100%" fill="url(%23diagonalLines)" /%3E%3C/svg%3E');
+            opacity: 0.3;
+            z-index: -1;
+            animation: subtle-motion 20s linear infinite alternate;
+        }
+
+        @keyframes subtle-motion {
+            from {
+                transform: translate(0px, 0px);
+            }
+            to {
+                transform: translate(5px, 5px);
+            }
+        }
+
+        /* Container Styles */
+        .container {
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 90%;
+            max-width: 450px;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Title */
+        h1 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            letter-spacing: -1px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left; /* Added to align labels to the left */
+        }
+
+        label {
+            display: block;
+            font-size: 1em;
+            color: #ddd;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 45px 14px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            color: #ccc;
+        }
+
+         select option {
+            color: black;  /* Set the text color for options to black */
+             background-color: #fff; /* Optional: Set a background color */
+        }
+
+        select option:disabled {
+            color: #999; /* Keep the disabled option grayed out */
+        }
+
+        /* Error Message */
+        .error {
+            color: #ff6b6b;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Submit Button */
+        button {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #4a90e2, #63b8ff);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            outline: none;
+            margin-top: 25px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 576px) {
+            .container {
+                padding: 30px;
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contributor Login</h1>
+        <form id="contributorForm" action="/work-list" method="GET" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <div class="input-wrapper">
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+                <div id="nameError" class="error">Invalid name. Please enter a valid name.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <i class="fas fa-envelope input-icon"></i>
+                </div>
+                <div id="emailError" class="error">Invalid email. Please enter a valid email.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="department">Select Your Department:</label>
+                <div class="input-wrapper">
+                    <select id="department" name="department" required>
+                        <option value="" disabled selected style="color: #aaa;">Select Department</option>
+                        <option value="Blast Furnace">Blast Furnace</option>
+                        <option value="Sinter Plant">Sinter Plant</option>
+                        <option value="Steel Melting Shop(SMS)">Steel Melting Shop(SMS)</option>
+                        <option value="Rolling Mills">Rolling Mills</option>
+                        <option value="Coke Ovens & By-Product plant">Coke Ovens & By-Product plant</option>
+                    </select>
+                    <i class="fas fa-building input-icon"></i>
+                </div>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            const validNames = ["Vishma Pasayat", "Subhendu Kumar Behera", "Binay Binit Lenka"];
+            const validEmails = ["vishmapasayat003@gmail.com", "kumarsubhendu2003@gmail.com", "binaybinitlenka@gmail.com"];
+
+            const nameInput = document.getElementById("name").value.trim();
+            const emailInput = document.getElementById("email").value.trim();
+
+            const nameError = document.getElementById("nameError");
+            const emailError = document.getElementById("emailError");
+
+            let isValid = true;
+
+            if (!validNames.includes(nameInput)) {
+                nameError.style.display = "block";
+                isValid = false;
+            } else {
+                nameError.style.display = "none";
+            }
+
+            if (!validEmails.includes(emailInput)) {
+                emailError.style.display = "block";
+                isValid = false;
+            } else {
+                emailError.style.display = "none";
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>

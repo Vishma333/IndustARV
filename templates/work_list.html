@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work List | IndustARV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700&family=Roboto:wght@400;500&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, black, #235384);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            padding: 40px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(12px);
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Heading */
+        h1 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+
+        .tab-nav button {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: white;
+            padding: 14px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            outline: none;
+            flex-grow: 1; /* Important for equal width */
+            margin: 0 5px;
+            /* min-width: 0;  Reset min-width */
+            width: auto; /* Reset width */
+        }
+
+        .tab-nav button.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Card Styling */
+        .card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            backdrop-filter: blur(5px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        /* Work List Styling */
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        li {
+            padding: 15px 20px;
+            font-size: 1.1em;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+             color: white; /* Make task description white */
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        /* Status Indicators */
+        .status {
+            font-size: 0.9em;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            min-width: 120px; /* Ensure consistent width */
+            text-align: center; /* Center the text */
+            display: inline-block; /* Allow width to be set */
+        }
+
+        .ongoing {
+            background-color: #cf880e;
+        }
+
+        .pending {
+            background-color: #a02222;
+        }
+
+        .completed {
+            background-color: #0cb47c;
+        }
+
+        /* Hidden Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Buttons */
+        .buttons {
+            margin-top: 40px;
+            text-align: center;
+            display: flex; /* Make the button container a flex container */
+            justify-content: center; /* Center the buttons horizontally */
+        }
+
+        .btn {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: white;
+            padding: 14px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            outline: none;
+            /* min-width: 180px;  Consider adding this back if too narrow */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 10px; /* Add spacing between the buttons */
+            flex: 1;  /*  Make the buttons fill up the container */
+             min-width: 150px;  /* Ensure the buttons have a reasonable size */
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .tab-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tab-nav button {
+                margin-bottom: 15px;
+                flex-grow: 0;
+                width: 100%;
+            }
+
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+
+            li {
+                font-size: 1em;
+                padding: 12px 15px;
+            }
+
+            .btn {
+                font-size: 0.9em;
+                padding: 12px 18px;
+                width: 100%;
+                margin-bottom: 10px;
+                 flex: none; /* Remove the flex property on smaller screens */
+                 min-width: auto; /* Remove min-width in smaller viewports */
+            }
+
+            .buttons {
+                flex-direction: column; /* Stack buttons on smaller screens */
+                align-items: center;  /* Center stacked buttons */
+
+            }
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cdefs%3E%3Cpattern id="diagonalLines" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse"%3E%3Cline x1="0" y1="0" x2="10" y2="10" style="stroke:rgba(255,255,255,0.02); stroke-width:1" /%3E%3Cline x1="0" y1="10" x2="10" y2="0" style="stroke:rgba(255,255,255,0.02); stroke-width:1" /%3E%3C/pattern%3E%3Cdefs%3E%3Crect width="100%" height="100%" fill="url(%23diagonalLines)" /%3E%3C/svg%3E');
+            opacity: 0.2;
+            pointer-events: none;
+            animation: subtle-motion 20s linear infinite alternate;
+            z-index: 1;
+        }
+
+        @keyframes subtle-motion {
+            from {
+                transform: translate(0px, 0px);
+            }
+            to {
+                transform: translate(5px, 5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Work List</h1>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-button active" data-tab="ongoing">Ongoing</button>
+            <button class="tab-button" data-tab="pending">Pending</button>
+            <button class="tab-button" data-tab="completed">Completed</button>
+        </div>
+
+        <!-- Ongoing Work -->
+        <div id="ongoing" class="tab-content active">
+            <div class="card">
+                <h2>Ongoing Work</h2>
+                <ul>
+                    <li>
+                        Task 10031 - AI Analysis
+                        <span class="status ongoing">50% Completed</span>
+                    </li>
+                    <li>
+                        Task 10044 - Fire Extinguisher Maintanence
+                        <span class="status ongoing">30% Completed</span>
+                    </li>
+                    <li>
+                        Task 10079 - Safety Parameter Test
+                        <span class="status ongoing">75% Completed</span>
+                    </li>
+                     <li>
+                        Task 10077 - Safety Parameter Test
+                        <span class="status ongoing">55% Completed</span>
+                    </li>
+                     <li>
+                        Task 10063 - Safety Parameter Test
+                        <span class="status ongoing">43% Completed</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Pending Work -->
+        <div id="pending" class="tab-content">
+            <div class="card">
+                <h2>Pending Work</h2>
+                <ul>
+                    <li>
+                        Task 10053 - Gas Leak Analysis
+                        <span class="status pending">Not Started</span>
+                    </li>
+                    <li>
+                        Task 10049 - Evacuation Protocol
+                        <span class="status pending">Awaiting Approval</span>
+                    </li>
+                    <li>
+                        Task 10021 - Safety Compliance Audit
+                        <span class="status pending">Awaiting Approval</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Completed Work -->
+        <div id="completed" class="tab-content">
+            <div class="card">
+                <h2>Completed Work</h2>
+                <ul>
+                    <li>
+                        Task 10011 - Heat Analysis
+                        <span class="status completed">Finished</span>
+                    </li>
+                    <li>
+                        Task 10081 - Machine Vibration Test
+                        <span class="status completed">Finished</span>
+                    </li>
+                    <li>
+                        Task 10051 - Emergency Exit Route Verification
+                        <span class="status completed">Approved & Verified</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <a href="{{ url_for('solutions') }}" class="btn">View Solutions</a>
+            <a href="{{ url_for('home') }}" class="btn">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Tab Functionality
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Deactivate all buttons and content
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Activate clicked button and corresponding content
+                button.classList.add('active');
+                const tabId = button.dataset.tab;
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

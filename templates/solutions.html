@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Training Videos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Body Background (Reverted to Gradient) */
+        body {
+            background: linear-gradient(to bottom, black, #235384);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            width: 95%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 5px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar input {
+            background: none;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 1em;
+            padding: 8px 12px;
+            flex: 1;
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            padding: 8px;
+            transition: color 0.3s ease;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Add the following lines to support text */
+            gap: 5px;
+        }
+
+        .search-bar button:hover {
+            color: #fff;
+        }
+
+        /* Container for Video Cards (YouTube Listing Style) */
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Responsive Grid */
+            gap: 20px;
+            margin-bottom: 20px;
+            /* background-color: rgba(255, 255, 255, 0.08);   Removed white background from the main container */
+            border-radius: 15px; /* Rounded corners for the container */
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            transform: translateY(0);
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: rgba(255, 255, 255, 0.1);  /* Kept White background from Cards */
+            color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: block;
+            backdrop-filter: blur(5px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-thumbnail {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .card-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            font-size: 0.8em;
+            padding: 3px 5px;
+            border-radius: 4px;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card h2 {
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .card p {
+            font-size: 0.9em;
+            color: #aaa;
+        }
+
+       /* Buttons at Bottom (Distinct Style + Refined Glass) */
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            perspective: 600px;
+        }
+
+        .buttons a {
+             display: inline-block;
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: 500;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+           background-color: rgba(255, 255, 255, 0.1); /*White Glass Buttons*/
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Brighter Border */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .buttons a:hover {
+             background-color: rgba(255, 255, 255, 0.2); /*Lighter hover background*/
+            transform: translateY(-5px) rotateX(10deg);   /* Apply 3D rotation */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);  /* Reduced shadow intensity */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <a href="#" class="logo">My Safety Channel</a>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button aria-label="Search">  <i class="fas fa-search"></i> </button>
+        </div>
+    </header>
+
+    <!-- Video Cards -->
+    <div class="container">
+        <!-- Introduction to Workplace Safety -->
+        <a href="#" class="card">
+            <div class="card-thumbnail">
+                <img src="https://i.ibb.co/wFwVwN65/e332160c0a42.jpg" alt="Workplace Safety">
+                <span class="card-duration">3:22</span>
+            </div>
+            <div class="card-content">
+                <h2>Introduction to Workplace Safety</h2>
+                <p>Covers basic safety principles, common hazards, and safety culture.</p>
+            </div>
+        </a>
+
+        <!-- How to Wear Safety Gear Properly -->
+        <a href="#" class="card">
+            <div class="card-thumbnail">
+                <img src="https://i.ibb.co/hxWKRn9N/4baa10ad2828.jpg" alt="Safety Gear">
+                <span class="card-duration">4:58</span>
+            </div>
+            <div class="card-content">
+                <h2>How to Wear Safety Gear Properly</h2>
+                <p>Demonstrates the correct use of helmets, gloves, safety shoes, and other PPE.</p>
+            </div>
+        </a>
+
+        <!-- Safe Handling of Heavy Machinery -->
+        <a href="#" class="card">
+            <div class="card-thumbnail">
+                <img src="https://i.ibb.co/Z1K4pCLb/db226a0caaf3.jpg" alt="Heavy Machinery">
+                <span class="card-duration">6:15</span>
+            </div>
+            <div class="card-content">
+                <h2>Safe Handling of Heavy Machinery</h2>
+                <p>Guides workers on operating and maintaining industrial machines safely.</p>
+            </div>
+        </a>
+
+        <!-- Fire Prevention & Extinguishing Techniques -->
+        <a href="#" class="card">
+            <div class="card-thumbnail">
+                <img src="https://i.ibb.co/jPnwHsxR/873535750b59.jpg" alt="Fire Prevention">
+                <span class="card-duration">5:02</span>
+            </div>
+            <div class="card-content">
+                <h2>Fire Prevention & Extinguishing Techniques</h2>
+                <p>Teaches how to prevent fires and use extinguishers in emergencies.</p>
+            </div>
+        </a>
+
+        <!-- Emergency Response & Evacuation Plans -->
+        <a href="#" class="card">
+            <div class="card-thumbnail">
+                <img src="https://i.ibb.co/pvx6LCLT/f8a6c200f673.jpg" alt="Emergency Response">
+                <span class="card-duration">7:30</span>
+            </div>
+            <div class="card-content">
+                <h2>Emergency Response & Evacuation Plans</h2>
+                <p>Covers what to do in case of accidents, spills, or natural disasters.</p>
+            </div>
+        </a>
+    </div>
+
+    <!-- Buttons at Bottom -->
+    <div class="buttons">
+        <a href="{{ url_for('work_list') }}">View Work List</a>
+        <a href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+
+</body>
+</html>
